@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: ct666ai
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+      base_url: https://api.deepseek.com
+      chat:
+        model: ${AI_MODEL}
