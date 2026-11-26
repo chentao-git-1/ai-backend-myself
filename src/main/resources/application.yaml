@@ -4,6 +4,6 @@ spring:
   ai:
     openai:
       api-key: ${OPENAI_API_KEY}
-      base_url: https://api.deepseek.com
+      base-url: https://api.deepseek.com
       chat:
         model: ${AI_MODEL}
