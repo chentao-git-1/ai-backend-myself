@@ -22,10 +22,10 @@ public class ChatController {
     }
 
     @PostMapping("/chat")
-    public Map<String,String> chat(@RequestBody Map<String,String> request){
+    public Map<String,String> chat(@RequestBody Map<String,String> request,String conversationId){
         String message =request.get("message");
 
-        String chat = chatService.chat(message);
+        String chat = chatService.chat(message,conversationId);
 
 
         return Map.of(
@@ -42,8 +42,10 @@ public class ChatController {
         // TODO：使用 Spring AI 实现流式模型调用
         // TODO 1：获取用户输入
         String message = request.get("message");
+
+        String conversation=request.get("conversationId");
         // TODO 2：调用 ChatService 的流式方法
-        Flux<String> stringFlux = chatService.streamChat(message);
+        Flux<String> stringFlux = chatService.streamChat(message,conversation);
         // TODO 3：返回 Flux
         return stringFlux;
 

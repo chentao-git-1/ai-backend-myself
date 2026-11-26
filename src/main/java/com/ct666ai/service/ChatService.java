@@ -1,6 +1,10 @@
 package com.ct666ai.service;
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.session.DefaultSessionService;
+import org.springframework.ai.session.InMemorySessionRepository;
+import org.springframework.ai.session.SessionService;
+import org.springframework.ai.session.advisor.SessionAdvisors;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
@@ -16,19 +20,32 @@ public class ChatService {
                         "背景：学生具备Spring Boot基础。\n" +
                         "约束：先讲原理，不直接提供练习答案。\n" +
                         "输出要求：原理讲解、代码示例、思考题。")
+                .defaultAdvisors(
+                        SessionAdvisors.builder(sessionService).build()
+                )
                 .build();
     }
 
-    public String chat(String message){
+    SessionService sessionService =
+            DefaultSessionService.builder()
+                    .sessionRepository(
+                            InMemorySessionRepository.builder().build()
+                    )
+                    .build();
+
+    public String chat(
+            String message,String conversationId){
         return client.prompt()
                 .user(message)
+                .advisors(SessionAdvisors.session(conversationId))
                 .call()
                 .content();
     }
 
-    public Flux<String> streamChat(String message){
+    public Flux<String> streamChat(String message,String conversationId){
         return client.prompt()
                 .user(message)
+                .advisors(SessionAdvisors.session(conversationId))
                 .stream()
                 .content();
     }
