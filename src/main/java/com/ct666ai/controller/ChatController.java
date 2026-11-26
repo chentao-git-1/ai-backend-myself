@@ -1,8 +1,10 @@
 package com.ct666ai.controller;
 
 import com.ct666ai.service.ChatService;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 
 import java.util.Map;
 
@@ -28,10 +30,25 @@ public class ChatController {
 
         return Map.of(
                 "role", "assistant",
-                "content", "回复刚刚发送了：" + chat
+                "content", chat
         );
 
     }
+    @PostMapping(
+            value = "/chat/stream",
+            produces = MediaType.TEXT_EVENT_STREAM_VALUE
+    )
+    public Flux<String> streamChat(@RequestBody Map<String,String> request){
+        // TODO：使用 Spring AI 实现流式模型调用
+        // TODO 1：获取用户输入
+        String message = request.get("content");
+        // TODO 2：调用 ChatService 的流式方法
+        Flux<String> stringFlux = chatService.streamChat(message);
+        // TODO 3：返回 Flux
+        return stringFlux;
+
+    }
+
 
 
 }
