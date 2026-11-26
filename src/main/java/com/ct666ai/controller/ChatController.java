@@ -41,7 +41,7 @@ public class ChatController {
     public Flux<String> streamChat(@RequestBody Map<String,String> request){
         // TODO：使用 Spring AI 实现流式模型调用
         // TODO 1：获取用户输入
-        String message = request.get("content");
+        String message = request.get("message");
         // TODO 2：调用 ChatService 的流式方法
         Flux<String> stringFlux = chatService.streamChat(message);
         // TODO 3：返回 Flux
