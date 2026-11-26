@@ -12,5 +12,12 @@ public class ChatService {
         this.client=builder.build();
     }
 
+    public String chat(String message){
+        return client.prompt()
+                .user(message)
+                .call()
+                .content();
+    }
+
 
 }

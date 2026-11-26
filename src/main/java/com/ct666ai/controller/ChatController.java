@@ -20,14 +20,15 @@ public class ChatController {
     }
 
     @PostMapping("/chat")
-    public Map<String,String> health(@RequestBody Map<String,String> request){
+    public Map<String,String> chat(@RequestBody Map<String,String> request){
         String message =request.get("message");
 
+        String chat = chatService.chat(message);
 
 
         return Map.of(
                 "role", "assistant",
-                "content", "你刚刚发送了：" + message
+                "content", "回复刚刚发送了：" + chat
         );
 
     }
