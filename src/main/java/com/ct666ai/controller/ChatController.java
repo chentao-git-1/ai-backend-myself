@@ -22,17 +22,18 @@ public class ChatController {
     }
 
     @PostMapping("/chat")
-    public Map<String,String> chat(@RequestBody Map<String,String> request,String conversationId){
-        String message =request.get("message");
+    public Map<String, String> chat(
+            @RequestBody Map<String, String> request) {
 
-        String chat = chatService.chat(message,conversationId);
+        String message = request.get("message");
+        String conversationId = request.get("conversationId");
 
+        String answer = chatService.chat(message, conversationId);
 
         return Map.of(
                 "role", "assistant",
-                "content", chat
+                "content", answer
         );
-
     }
     @PostMapping(
             value = "/chat/stream",
